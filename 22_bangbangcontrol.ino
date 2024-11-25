@@ -15,14 +15,14 @@
                           // Setting EMA to 1 effectively disables EMA filter.
 
 // Servo adjustment - Set _DUTY_MAX, _NEU, _MIN with your own numbers
-#define _DUTY_MAX 1900 // 2000
+#define _DUTY_MAX 2200 // 2000
 #define _DUTY_NEU 1400 // 1500
-#define _DUTY_MIN 900 // 1000
+#define _DUTY_MIN 1000 // 1000
 
 #define _SERVO_ANGLE_DIFF  120  // Replace with |D - E| degree
 #define _SERVO_SPEED       150  // servo speed
 
-#define _BANGBANG_RANGE    500  // duty up and down for bangbang control
+#define _BANGBANG_RANGE    400  // duty up and down for bangbang control
 
 // Target Distance
 #define _DIST_TARGET    175 // Center of the rail (unit:mm)
@@ -88,10 +88,10 @@ void loop()
     dist_ema = _EMA_ALPHA * dist_filtered + (1.0 - _EMA_ALPHA) * dist_ema;
 
     // bang bang control
-    if (dist_ema > _DIST_TARGET) {
+    if (dist_ema < _DIST_TARGET) {
       duty_target = _DUTY_NEU - _BANGBANG_RANGE;
       digitalWrite(PIN_LED, 0);
-    } else if (dist_ema < _DIST_TARGET) {
+    } else if (dist_ema > _DIST_TARGET) {
       duty_target = _DUTY_NEU + _BANGBANG_RANGE;
       digitalWrite(PIN_LED, 1);
     }
